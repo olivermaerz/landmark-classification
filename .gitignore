@@ -1,0 +1,56 @@
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# PyTorch / model artifacts
+checkpoints/*
+!checkpoints/.gitkeep
+*.pt
+*.pth
+*.onnx
+mean_and_std.pt
+
+# Dataset (large; keep README)
+landmark_images/train/
+landmark_images/test/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs / editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs and local env
+*.log
+.env
+.env.*
