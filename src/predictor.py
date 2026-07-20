@@ -8,6 +8,8 @@ from tqdm import tqdm
 from torchvision import datasets
 import torchvision.transforms as T
 from .helpers import get_data_location
+# for the python version check
+import sys
 
 
 class Predictor(nn.Module):
@@ -30,12 +32,12 @@ class Predictor(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         with torch.no_grad():
             # 1. apply transforms
-            x  = # YOUR CODE HERE
+            x  = self.transforms(x)
             # 2. get the logits
-            x  = # YOUR CODE HERE
+            x  = self.model(x)
             # 3. apply softmax
             #    HINT: remmeber to apply softmax across dim=1
-            x  = # YOUR CODE HERE
+            x  = F.softmax(x, dim=1)
 
             return x
 
@@ -90,8 +92,12 @@ def test_model_construction(data_loaders):
     model = MyModel(num_classes=3, dropout=0.3)
 
     dataiter = iter(data_loaders["train"])
-    images, labels = dataiter.next()
-
+    # check the python version (because of apple silicon only support python 3) and use the appropriate next function
+    if sys.version_info[0] == 3:
+        images, labels = next(dataiter)
+    else:
+        images, labels = dataiter.next()
+        
     predictor = Predictor(model, class_names=['a', 'b', 'c'], mean=mean, std=std)
 
     out = predictor(images)

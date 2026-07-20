@@ -16,10 +16,10 @@ def get_loss():
 
 def get_optimizer(
     model: nn.Module,
-    optimizer: str = "SGD",
-    learning_rate: float = 0.01,
-    momentum: float = 0.5,
-    weight_decay: float = 0,
+    optimizer: str = "SGD", # SGD = Stochastic Gradient Descent
+    learning_rate: float = 0.01, # learning rate influences the step size of the optimizer
+    momentum: float = 0.5, # momentum influences how much of the previous gradient is added to the current gradient
+    weight_decay: float = 0, # weight_decay influences the strength of the regularization 
 ):
     """
     Returns an optimizer instance
@@ -31,7 +31,7 @@ def get_optimizer(
     :param weight_decay: regularization coefficient
     """
     if optimizer.lower() == "sgd":
-        # YOUR CODE HERE: create an instance of the SGD
+        # create an instance of the SGD
         # optimizer. Use the input parameters learning_rate, momentum
         # and weight_decay
         opt = torch.optim.SGD(
@@ -42,7 +42,7 @@ def get_optimizer(
         )
 
     elif optimizer.lower() == "adam":
-        # YOUR CODE HERE: create an instance of the Adam
+        # create an instance of the Adam
         # optimizer. Use the input parameters learning_rate, momentum
         # and weight_decay
         opt = torch.optim.Adam(

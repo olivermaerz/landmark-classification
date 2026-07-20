@@ -63,6 +63,7 @@ def get_data_loaders(
         transforms.RandomRotation(10), # rotate the image by a random angle between (here -10 and 10 degrees)
         transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2), # change the brightness, contrast, and saturation of the image
         transforms.RandomGrayscale(p=0.1), # convert the image to grayscale with a probability of p
+        transforms.RandomAffine(degrees=0, translate=(0.05, 0.05)), # apply a random affine transformation to the image (light translation)
     ]
 
     # convert the image to a tensor and normalize it

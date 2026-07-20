@@ -15,10 +15,20 @@ import numpy as np
 import random
 
 
-def setup_env():
+def get_device():
+    """Return the best available torch device (CUDA, MPS, or CPU)."""
+    if torch.cuda.is_available():
+        return torch.device("cuda")
     if torch.backends.mps.is_available():
+        return torch.device("mps")
+    return torch.device("cpu")
+
+
+def setup_env():
+    device = get_device()
+    if device.type == "mps":
         print("Apple Silicon GPU (MPS) available")
-    elif torch.cuda.is_available():
+    elif device.type == "cuda":
         print("CUDA GPU available")
     else:
         print("GPU *NOT* available. Will use CPU (slow)")
@@ -28,7 +38,8 @@ def setup_env():
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
+    if device.type == "cuda":
+        torch.cuda.manual_seed_all(seed)
 
     # Download data if not present already
     download_and_extract()
