@@ -2,6 +2,8 @@ import torch
 import torchvision
 import torchvision.models as models
 import torch.nn as nn
+# for python version check
+import sys
 
 
 def get_model_transfer_learning(model_name="resnet18", n_classes=50):
@@ -21,15 +23,18 @@ def get_model_transfer_learning(model_name="resnet18", n_classes=50):
     # Freeze all parameters in the model
     # HINT: loop over all parameters. If "param" is one parameter,
     # "param.requires_grad = False" freezes it
-    # YOUR CODE HERE
+
+    for param in model_transfer.parameters():
+        param.requires_grad = False # freeze all parameters in the model
 
     # Add the linear layer at the end with the appropriate number of classes
     # 1. get numbers of features extracted by the backbone
-    num_ftrs  = # YOUR CODE HERE
+    num_ftrs  = model_transfer.fc.in_features
+    print(f"Number of features extracted by the backbone: {num_ftrs}")
 
     # 2. Create a new linear layer with the appropriate number of inputs and
     #    outputs
-    model_transfer.fc  = # YOUR CODE HERE
+    model_transfer.fc  = nn.Linear(num_ftrs, n_classes)
 
     return model_transfer
 
@@ -52,7 +57,12 @@ def test_get_model_transfer_learning(data_loaders):
     model = get_model_transfer_learning(n_classes=23)
 
     dataiter = iter(data_loaders["train"])
-    images, labels = dataiter.next()
+
+    # check if python 3 is used (apple silicon only supports python 3 for GPU use)
+    if sys.version_info.major == 3:
+        images, labels = next(dataiter)
+    else:
+        images, labels = dataiter.next()
 
     out = model(images)
 

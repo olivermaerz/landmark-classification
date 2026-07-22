@@ -9,7 +9,7 @@ def get_loss():
     optionally moving it to the GPU if use_cuda is set to True
     """
 
-    # YOUR CODE HERE: select a loss appropriate for classification
+    # select a loss appropriate for classification
     loss  = nn.CrossEntropyLoss() # this is the loss function best for classification tasks
 
     return loss

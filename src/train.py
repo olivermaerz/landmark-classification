@@ -94,7 +94,7 @@ def valid_one_epoch(valid_dataloader, model, loss):
     return valid_loss
 
 
-def optimize(data_loaders, model, optimizer, loss, n_epochs, save_path, interactive_tracking=False, early_stopping=False, early_stopping_patience=3, early_stopping_min_epochs=10):
+def optimize(data_loaders, model, optimizer, loss, n_epochs, save_path, interactive_tracking=False, early_stopping=False, early_stopping_patience=3):
     # initialize tracker for minimum validation loss
     if interactive_tracking:
         liveloss = PlotLosses(outputs=[MatplotlibPlot(after_subplot=after_subplot)])
@@ -175,7 +175,7 @@ def optimize(data_loaders, model, optimizer, loss, n_epochs, save_path, interact
                 # loss improved -> reset the counter and update the best loss
                 early_stopping_best_loss = valid_loss
                 early_stopping_counter = 0
-            elif epoch >= early_stopping_min_epochs: # only start early stopping after a minimum number of epochs
+            else:
                 # loss did not improve -> increment the counter
                 early_stopping_counter += 1
                 

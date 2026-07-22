@@ -43,7 +43,6 @@ def get_data_loaders(
     mean, std = compute_mean_and_std()
     print(f"Dataset mean: {mean}, std: {std}")
 
-    # YOUR CODE HERE:
     # create 3 sets of data transforms: one for the training dataset,
     # containing data augmentation, one for the validation dataset
     # (without data augmentation) and one for the test set (again
@@ -51,19 +50,24 @@ def get_data_loaders(
     # HINT: resize the image to 256 first, then crop them to 224, then add the
     # appropriate transforms for that step
 
-    # resize and crop the image to 224x224
+    # resize and crop the image to 224x224 (for validation and test)
     resize_crop_transform = [
         transforms.Resize(256),
         transforms.CenterCrop(224),
     ]
     
+    # resize and random crop the image to 224x224 (for training)
+    random_crop_transform = [
+      transforms.Resize(256),
+      transforms.RandomCrop(224),
+    ]
+
     # augmentations only on the training set!
     augmentation_transform = [
         transforms.RandomHorizontalFlip(p=0.5), # flip the image horizontally with a probability of p
         transforms.RandomRotation(10), # rotate the image by a random angle between (here -10 and 10 degrees)
         transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2), # change the brightness, contrast, and saturation of the image
-        transforms.RandomGrayscale(p=0.1), # convert the image to grayscale with a probability of p
-        transforms.RandomAffine(degrees=0, translate=(0.05, 0.05)), # apply a random affine transformation to the image (light translation)
+        # transforms.RandomGrayscale(p=0.1), # convert the image to grayscale with a probability of p
     ]
 
     # convert the image to a tensor and normalize it
@@ -94,7 +98,7 @@ def get_data_loaders(
     else:
         # the rubric requires to do the augmentation "inbetween" the resize/crop and the tensor conversion
         train_transform = transforms.Compose(
-            resize_crop_transform + augmentation_transform + tensor_normalize_transform
+            random_crop_transform + augmentation_transform + tensor_normalize_transform
         )
         
     data_transforms = {
@@ -106,7 +110,7 @@ def get_data_loaders(
     # Create train and validation datasets
     train_data = datasets.ImageFolder(
         base_path / "train",
-        # YOUR CODE HERE: add the appropriate transform that you defined in
+        # transform that you defined in
         # the data_transforms dictionary
         transform=data_transforms["train"],
     )
@@ -114,7 +118,7 @@ def get_data_loaders(
     # from the same folder, but we apply the transforms for validation
     valid_data = datasets.ImageFolder(
         base_path / "train",
-        # YOUR CODE HERE: add the appropriate transform that you defined in
+        # add the appropriate transform that you defined in
         # the data_transforms dictionary
         transform=data_transforms["valid"],
     )
@@ -182,7 +186,6 @@ def visualize_one_batch(data_loaders, max_n: int = 5):
     :return: None
     """
 
-    # YOUR CODE HERE:
     # obtain one batch of training images
     # First obtain an iterator from the train dataloader
     dataiter  = iter(data_loaders["train"]) # iterator for the train dataset
@@ -204,7 +207,6 @@ def visualize_one_batch(data_loaders, max_n: int = 5):
 
     images = invTrans(images)
 
-    # YOUR CODE HERE:
     # Get class names from the train data loader
     class_names  = data_loaders["train"].dataset.classes # get the class names from the train dataset
 
