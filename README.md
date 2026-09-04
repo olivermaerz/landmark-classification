@@ -5,3 +5,6 @@ Setup with [uv](https://docs.astral.sh/uv/): `uv venv && source venv/bin/activat
 Then start JupyterLab with: `jupyter lab` and complete the notebooks in order: `cnn_from_scratch.ipynb`, `transfer_learning.ipynb`, then `app.ipynb`.
 
 The landmark images are not included (size; subset of Google Landmarks Dataset v2). Place the train/test folders under `landmark_images/` locally before running.
+
+If you sign up for Udacity, this is a [referral link](https://udacity.referralrock.com/l/OLIVERWOLF62/). Help out a poor AI student :)
+
